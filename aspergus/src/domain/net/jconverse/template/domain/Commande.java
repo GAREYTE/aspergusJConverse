@@ -137,6 +137,7 @@ public class Commande {
   }
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @Choice(value=Mode.SELECTION,display=Display.COMBO)
   public Client getClient() {
     return client;
   }

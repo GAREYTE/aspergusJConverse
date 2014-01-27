@@ -1,91 +1,105 @@
 package net.jconverse.template.domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
 
-import java.util.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-import javax.persistence.*;
-
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
+import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
+import net.sourceforge.cristalmodel.annotations.Order;
 
 @Entity
 public class Client {
-	
-	@Id
-	private int numero;
-	
-	@Column(length=40) 
-	private String nom;
-	
-	private String prenom;
-	private Adresse adresse;
 
-	private String telephone;
-	private String email;
-	
-	@OneToMany(mappedBy="client", cascade=CascadeType.REMOVE)
-	private Collection<Commande> commande;
-	
-	public Collection<Commande> getCommande() {
-		return commande;
-	}
+  private String nom;
 
-	public void setCommande(Collection<Commande> commande) {
-		this.commande = commande;
-	}
+  private String prenom;
+  private Adresse adresse;
 
-	public int getNumero() {
-		return numero;
-	}
+  private String telephone;
+  private String email;
 
-	public void setNumero(int number) {
-		this.numero = number;
-	}
+  private Long id;
 
-	public String getNom() {
-		return nom;
-	}
+  public Client() {
+    this.commande = new ArrayList<>();
+  }
 
-	public void setNom(String name) {
-		this.nom = name;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getPrenom() {
-		return prenom;
-	}
+  @Order(0)
+  @Uneditable
+  @Hidden
+  @Id
+  @GeneratedUID
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
+  private Collection<Commande> commande;
 
-	
+  @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
+  public Collection<Commande> getCommande() {
+    return commande;
+  }
 
-	public String getTelephone() {
-		return telephone;
-	}
+  public void setCommande(Collection<Commande> commande) {
+    this.commande = commande;
+  }
 
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
+  @Column(length = 40)
+  public String getNom() {
+    return nom;
+  }
 
-	public String getEmail() {
-		return email;
-	}
+  public void setNom(String name) {
+    this.nom = name;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getPrenom() {
+    return prenom;
+  }
 
-	public Adresse getAdresse() {
-		return adresse;
-	}
+  public void setPrenom(String prenom) {
+    this.prenom = prenom;
+  }
 
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return getNom()+ " "+getPrenom();
-	}
+  public String getTelephone() {
+    return telephone;
+  }
 
-	
+  public void setTelephone(String telephone) {
+    this.telephone = telephone;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Adresse getAdresse() {
+    return adresse;
+  }
+
+  public void setAdresse(Adresse adresse) {
+    this.adresse = adresse;
+  }
+
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return getNom() + " " + getPrenom();
+  }
+
 }
