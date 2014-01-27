@@ -1,6 +1,5 @@
 package net.jconverse.template.domain;
 
-
 import java.math.*;
 import java.util.*;
 
@@ -11,177 +10,211 @@ import net.sf.jconverse.crud.annotations.gui.Choice;
 import net.sf.jconverse.crud.annotations.gui.Choice.Display;
 import net.sf.jconverse.crud.annotations.gui.Choice.Mode;
 import net.sf.jconverse.crud.annotations.gui.Required;
-
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
+import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
+import net.sourceforge.cristalmodel.annotations.Order;
 
 @Entity
-public class Commande  {
-	
-	public enum Statut { Commandee, Preparee, Livree };
-	@Column(length=4) @Required
-	private int annee;
-	
-	@Column(length=6) @Required	
-	private Integer numero;
-	
-	@Required 
-	private Date dateCommande;
-	
-	@ManyToOne()
-	@Required
-	private Salarie prisePar;
-	
-	private Date datePreparation;
-	
-	@ManyToOne()
-	private Salarie preparePar;
-	
-	private Date dateLivraison;
-	
-	@ManyToOne()
-	private Salarie livrePar;
-	
-	@Column(length=2) @Required
-	private int tva;
-	
-	@ManyToOne(optional=false, fetch=FetchType.LAZY)
-	private Client client;
-	
-	@OneToMany(mappedBy="commande", cascade=CascadeType.REMOVE)
-	private Collection<CommandeDetail> details;
-	
-	private String remarque;
-	
-	private Statut statut;
-	
-	public BigDecimal getQuantite() {
-		BigDecimal sum = BigDecimal.ZERO;
-		for (CommandeDetail detail: details) {
-			sum = sum.add(detail.getQuantite());
-		}
-		return sum;
-	}
-	
-	public BigDecimal getSum() {
-		BigDecimal sum = BigDecimal.ZERO;
-		for (CommandeDetail detail: details) {
-			sum = sum.add(detail.getAmount());
-		}
-		return sum;
-	}
-	
-	public BigDecimal getVat() {
-		return getSum().multiply(new BigDecimal(getTva()).divide(new BigDecimal(100))).setScale(2, RoundingMode.UP);
-	}
-	
-	public BigDecimal getTotal() {
-		return getSum().add(getVat()).setScale(2, RoundingMode.UP);
-	}
-	
+public class Commande {
 
-	public int getAnnee() {
-		return annee;
-	}
+  public enum Statut {
+    Commandee,
+    Preparee,
+    Livree
+  };
 
-	public void setAnnee(int year) {
-		this.annee = year;
-	}
+  private int annee;
 
-	public Integer getNumero() {
-		return numero;
-	}
+  private Integer numero;
 
-	public void setNumero(Integer number) {
-		this.numero = number;
-	}
+  private Date dateCommande;
 
-	public Date getDateCommande() {
-		return dateCommande;
-	}
+  private Salarie prisePar;
 
-	public void setDateCommande(Date date) {
-		this.dateCommande = date;
-	}
+  private Date datePreparation;
 
-	public int getTva() {
-		return tva;
-	}
+  private Salarie preparePar;
 
-	public void setTva(int vatPercentage) {
-		this.tva = vatPercentage;
-	}
+  private Date dateLivraison;
 
-	public Client getClient() {
-		return client;
-	}
+  private Salarie livrePar;
 
-	public void setClient(Client client) {
-		this.client = client;
-	}
+  private int tva;
 
-	public Collection<CommandeDetail> getDetails() {
-		return details;
-	}
+  private Client client;
 
-	public void setDetails(Collection<CommandeDetail> details) {
-		this.details = details;
-	}
+  private Collection<CommandeDetail> details;
 
-	public String getRemarque() {
-		return remarque;
-	}
+  private String remarque;
 
-	public void setRemarque(String remarks) {
-		this.remarque = remarks;
-	}
+  private Statut statut;
 
-	public Date getDatePreparation() {
-		return datePreparation;
-	}
+  private Long id;
 
-	public void setDatePreparation(Date datePreparation) {
-		this.datePreparation = datePreparation;
-	}
-	@Choice(value=Mode.SELECTION,display=Display.COMBO)
-	public Salarie getPrisePar() {
-		return prisePar;
-	}
+  public Commande() {
+    this.details = new ArrayList<>();
+  }
 
-	public void setPrisePar(Salarie prisePar) {
-		this.prisePar = prisePar;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	@Choice(value=Mode.SELECTION,display=Display.COMBO)
-	public Salarie getPreparePar() {
-		return preparePar;
-	}
+  @Order(0)
+  @Uneditable
+  @Hidden
+  @Id
+  @GeneratedUID
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setPreparePar(Salarie preparePar) {
-		this.preparePar = preparePar;
-	}
+  @Transient
+  public BigDecimal getQuantite() {
+    BigDecimal sum = BigDecimal.ZERO;
+    for (CommandeDetail detail : details) {
+      sum = sum.add(detail.getQuantite());
+    }
+    return sum;
+  }
 
-	public Date getDateLivraison() {
-		return dateLivraison;
-	}
+  @Transient
+  public BigDecimal getSum() {
+    BigDecimal sum = BigDecimal.ZERO;
+    for (CommandeDetail detail : details) {
+      sum = sum.add(detail.getAmount());
+    }
+    return sum;
+  }
 
-	public void setDateLivraison(Date dateLivraison) {
-		this.dateLivraison = dateLivraison;
-	}
+  @Transient
+  public BigDecimal getVat() {
+    return getSum().multiply(new BigDecimal(getTva()).divide(new BigDecimal(100))).setScale(2, RoundingMode.UP);
+  }
 
-	@Choice(value=Mode.SELECTION,display=Display.COMBO)
-	public Salarie getLivrePar() {
-		return livrePar;
-	}
+  @Transient
+  public BigDecimal getTotal() {
+    return getSum().add(getVat()).setScale(2, RoundingMode.UP);
+  }
 
-	public void setLivrePar(Salarie livrePar) {
-		this.livrePar = livrePar;
-	}
+  @Column(length = 4)
+  @Required
+  public int getAnnee() {
+    return annee;
+  }
 
-	public Statut getStatut() {
-		return statut;
-	}
+  public void setAnnee(int year) {
+    this.annee = year;
+  }
 
-	public void setStatut(Statut type) {
-		this.statut = type;
-	}
+  @Column(length = 6)
+  @Required
+  public Integer getNumero() {
+    return numero;
+  }
+
+  public void setNumero(Integer number) {
+    this.numero = number;
+  }
+
+  @Required
+  public Date getDateCommande() {
+    return dateCommande;
+  }
+
+  public void setDateCommande(Date date) {
+    this.dateCommande = date;
+  }
+
+  @Column(length = 2)
+  @Required
+  public int getTva() {
+    return tva;
+  }
+
+  public void setTva(int vatPercentage) {
+    this.tva = vatPercentage;
+  }
+
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  public Client getClient() {
+    return client;
+  }
+
+  public void setClient(Client client) {
+    this.client = client;
+  }
+
+  @OneToMany(mappedBy = "commande", cascade = CascadeType.REMOVE)
+  public Collection<CommandeDetail> getDetails() {
+    return details;
+  }
+
+  public void setDetails(Collection<CommandeDetail> details) {
+    this.details = details;
+  }
+
+  public String getRemarque() {
+    return remarque;
+  }
+
+  public void setRemarque(String remarks) {
+    this.remarque = remarks;
+  }
+
+  public Date getDatePreparation() {
+    return datePreparation;
+  }
+
+  public void setDatePreparation(Date datePreparation) {
+    this.datePreparation = datePreparation;
+  }
+
+  @Choice(value = Mode.SELECTION, display = Display.COMBO)
+  @ManyToOne()
+  @Required
+  public Salarie getPrisePar() {
+    return prisePar;
+  }
+
+  public void setPrisePar(Salarie prisePar) {
+    this.prisePar = prisePar;
+  }
+
+  @Choice(value = Mode.SELECTION, display = Display.COMBO)
+  @ManyToOne()
+  public Salarie getPreparePar() {
+    return preparePar;
+  }
+
+  public void setPreparePar(Salarie preparePar) {
+    this.preparePar = preparePar;
+  }
+
+  public Date getDateLivraison() {
+    return dateLivraison;
+  }
+
+  public void setDateLivraison(Date dateLivraison) {
+    this.dateLivraison = dateLivraison;
+  }
+
+  @Choice(value = Mode.SELECTION, display = Display.COMBO)
+  @ManyToOne()
+  public Salarie getLivrePar() {
+    return livrePar;
+  }
+
+  public void setLivrePar(Salarie livrePar) {
+    this.livrePar = livrePar;
+  }
+
+  public Statut getStatut() {
+    return statut;
+  }
+
+  public void setStatut(Statut type) {
+    this.statut = type;
+  }
 
 }

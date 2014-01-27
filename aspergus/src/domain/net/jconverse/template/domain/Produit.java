@@ -6,6 +6,10 @@ import java.math.*;
 import javax.persistence.*;
 
 import net.sf.jconverse.crud.annotations.gui.Required;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
+import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
+import net.sourceforge.cristalmodel.annotations.Order;
 
 
 @Entity
@@ -23,7 +27,22 @@ public class Produit {
 	
 	@Required
 	private BigDecimal prixUnitaire;
+	private Long id;
 
+	public void setId(Long id) {
+	  this.id = id;
+	}
+
+	@Order(0)
+	@Uneditable
+	@Hidden
+	@Id
+	@GeneratedUID
+	
+	public Long getId() {
+	  return this.id;
+	}
+	 
 	public int getNumero() {
 		return numero;
 	}
@@ -48,6 +67,8 @@ public class Produit {
 		this.prixUnitaire = unitPrice;
 	}
 
+	
+	@ManyToOne
 	public Categorie getCategorie() {
 		return categorie;
 	}

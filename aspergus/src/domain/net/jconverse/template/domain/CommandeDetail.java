@@ -6,6 +6,10 @@ import java.math.*;
 import javax.persistence.*;
 
 import net.sf.jconverse.crud.annotations.gui.Required;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
+import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
+import net.sourceforge.cristalmodel.annotations.Order;
 
 
 @Entity
@@ -19,10 +23,27 @@ public class CommandeDetail  {
 	@Required
 	private BigDecimal quantite;
 	
+	private Long id;
+
+	public void setId(Long id) {
+	  this.id = id;
+	}
+
+	@Order(0)
+	@Uneditable
+	@Hidden
+	@Id
+	@GeneratedUID
+	public Long getId() {
+	  return this.id;
+	}
+	 
+	@Transient
 	public BigDecimal getAmount() {
 		return getQuantite().multiply(getProduit().getPrixUnitaire());
 	}
 
+	@ManyToOne()
 	public Commande getCommande() {
 		return commande;
 	}
