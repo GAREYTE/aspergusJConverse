@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/core"/>
+	<classpathentry kind="src" path="src/domain"/>
+	<classpathentry kind="src" path="src/conversation"/>
+	<classpathentry kind="src" path="src/batch"/>
+	<classpathentry kind="src" path="src/tests"/>
+	<classpathentry kind="src" path="src/web"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jconverse"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jconverse-hibernate"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CristalTools"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jasql"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/babel-ds"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
+	<classpathentry kind="lib" path="/alexandria-repository/libs/persistence/derby/derby.jar"/>
+	<classpathentry kind="lib" path="/alexandria-repository/libs/utilities/commons-lang/commons-lang.jar" sourcepath="/alexandria-repository/libs/utilities/commons-lang/src/commons-lang-2.5-sources.jar"/>
+	<classpathentry kind="lib" path="/alexandria-repository/libs/persistence/jpa-api/jpa-2.0-api.jar" sourcepath="/alexandria-repository/libs/persistence/jpa-api/src/hibernate-jpa-2.0-api-1.0.0.Final-sources.zip"/>
+	<classpathentry kind="lib" path="/alexandria-repository/libs/persistence/postgres/postgresql.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

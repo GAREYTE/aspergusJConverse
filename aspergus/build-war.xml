@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<project name="Aspergus" default="build.local-war" basedir=".">
+
+    <property environment="env"/><property name="repository" location="${env.ALEXANDRIA-REPOSITORY}" />	<property name="git" location="${env.GIT-REPOSITORY}" />
+    
+	<property name="description" value="Aspergus" />
+
+	<property name="name" value="template" />
+	<property name="version" value="1.0" />
+	<property name="main"
+		value="net.jconverse.template.presentation.PresentationConfig" />
+	<property name="manager-server" value="http://template.jconverse.net/manager" />
+	<property name="dbToBackup.name" value="template" />
+	<property name="authentification-type" value="none" />
+	<property name="vendor" value="Jconverse" />
+
+	<!-- <property name="authentification-type" value="container" /> -->
+
+
+	<property environment="env" />
+	
+	
+	
+
+
+	<import file="${repository}/scripts/wars.xml" />
+	<import file="${repository}/scripts/defaultwars.xml" />
+
+
+	<dependencies id="dependencies" name="dependencies">
+		<!-- <dependency shared="false" library="sstic/babel-ds" includes="*.jar"/> -->
+		<dependency library="utilities/commons-lang" includes="*.jar" />
+
+		<dependency library="persistence/hibernate" includes="*.jar" />
+
+		<dependency shared="false" library="sstic/jconverse"
+			includes="*.jar" />
+		<dependency shared="false" library="sstic/jconverse-hibernate"
+			includes="*.jar" />
+		<dependency shared="false" library="sstic/jasql" includes="*.jar" />
+
+		<dependency library="persistence/derby" includes="*.jar" />
+	</dependencies>
+
+	<message id="notes">
+
+	</message>
+
+	<target name="build.before" if="needbuild" depends="input.needbuild">
+		<subant target="build.repository-lib" inheritall="false" buildpath="${git}/jconverse/jconverse/build-libs.xml" />
+		<subant target="build.repository-lib" inheritall="false" buildpath="${git}/jconverse-hibernate/jconverse-hibernate/build-libs.xml" />
+		
+	</target>
+
+</project>

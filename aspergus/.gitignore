@@ -1,0 +1,7 @@
+/bin
+/bin-*
+/deploy/*.jar
+/deploy/_tempdir
+/build
+/.sonar
+/target

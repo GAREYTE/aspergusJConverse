@@ -1,0 +1,168 @@
+# Enerjy Software baseline data (files=26, problems=141).
+path: /jconverse-crud-template/src/batch/fr/sstic/template/AddParameters.java
+problem: JAVA0014:JAVA0014 Class 'AddParameters' with only static members has non-private constructor
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+problem: JAVA0126:JAVA0126 Method 'setupParameters' declares unchecked exception 'PersistenceException' in throws
+path: /jconverse-crud-template/src/batch/fr/sstic/template/CreateDatabase.java
+problem: JAVA0014:JAVA0014 Class 'CreateDatabase' with only static members has non-private constructor
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+path: /jconverse-crud-template/src/code-samples/fr/sstic/template/codesamples/CodeSamplesLoader.java
+problem: JAVA0014:JAVA0014 Class 'CodeSamplesLoader' with only static members has non-private constructor
+problem: JAVA0177:JAVA0177 Variable declaration 'result' missing initializer
+problem: JAVA0008:JAVA0008 Empty catch block
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+problem: JAVA0008:JAVA0008 Empty catch block
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+problem: JAVA0163:JAVA0163 Empty statement
+problem: JAVA0068:JAVA0068 Modifiers not declared in recommended order
+problem: JAVA0068:JAVA0068 Modifiers not declared in recommended order
+problem: JAVA0266:JAVA0266 Use of System.out
+path: /jconverse-crud-template/src/conversation/fr/sstic/template/conversation/ajaxsamples/ChoisirNombreEntre1Et10_Conversation_Source.java
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+path: /jconverse-crud-template/src/conversation/fr/sstic/template/conversation/ajaxsamples/ChoisirNombreEntre1Et10_Conversation_Tutorial.java
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+path: /jconverse-crud-template/src/conversation/fr/sstic/template/conversation/main/ComponentDemoConversation.java
+problem: JAVA0130:JAVA0130 Non-static method 'buildPane1' does not use instance fields
+problem: JAVA0173:JAVA0173 Unused method parameter 'name'
+problem: JAVA0076:JAVA0076 Use of magic number '15050.10'
+problem: JAVA0076:JAVA0076 Use of magic number '145454.5'
+problem: JAVA0130:JAVA0130 Non-static method 'buildPane3' does not use instance fields
+problem: JAVA0173:JAVA0173 Unused method parameter 'name'
+path: /jconverse-crud-template/src/conversation/fr/sstic/template/conversation/main/MainConversation.java
+problem: JAVA0144:JAVA0144 Line exceeds maximum 132 characters
+problem: JAVA0144:JAVA0144 Line exceeds maximum 132 characters
+path: /jconverse-crud-template/src/conversation/fr/sstic/template/conversation/main/TutorielsAjaxConversation.java
+problem: JAVA0054:JAVA0054 Inheritance depth 5 exceeds maximum 3
+problem: JAVA0234:JAVA0234 Class 'PanelExemple' is Serializable but does not define serialVersionUID
+problem: JAVA0128:JAVA0128 Public constructor 'PanelExemple' in non-public class
+problem: JAVA0128:JAVA0128 Public constructor 'PanelExemple' in non-public class
+path: /jconverse-crud-template/src/core/fr/sstic/template/TemplateFactory.java
+problem: JAVA0068:JAVA0068 Modifiers not declared in recommended order
+problem: JAVA0116:JAVA0116 Missing javadoc: field 'admin'
+problem: JAVA0068:JAVA0068 Modifiers not declared in recommended order
+problem: JAVA0116:JAVA0116 Missing javadoc: field 'user_role'
+problem: JAVA0068:JAVA0068 Modifiers not declared in recommended order
+problem: JAVA0116:JAVA0116 Missing javadoc: field 'admin_role'
+problem: JAVA0081:JAVA0081 Boolean literal in comparison (true == true)
+problem: JAVA0126:JAVA0126 Method 'setup' declares unchecked exception 'PersistenceException' in throws
+path: /jconverse-crud-template/src/core/fr/sstic/template/TemplateSource.java
+problem: JAVA0054:JAVA0054 Inheritance depth 5 exceeds maximum 3
+path: /jconverse-crud-template/src/core/fr/sstic/template/presentation/Bundle_fr.java
+problem: JAVA0024:JAVA0024 Empty class 'Bundle_fr'
+path: /jconverse-crud-template/src/core/fr/sstic/template/presentation/PresentationConfig.java
+problem: JAVA0059:JAVA0059 Method override 'runAtStartup' only calls super()
+path: /jconverse-crud-template/src/demo/fr/sstic/demo/simple/Simple.java
+problem: JAVA0024:JAVA0024 Empty class 'Simple'
+path: /jconverse-crud-template/src/demo/fr/sstic/demo/simple/etape1/Utilisateur.java
+problem: JAVA0001:JAVA0001 Package name 'fr.sstic.demo.simple.etape1' does not contain only lower case letters
+problem: JAVA0113:JAVA0113 Incorrect javadoc: no @author tag
+problem: JAVA0057:JAVA0057 Unnecessary default constructor 'Utilisateur'
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/Dossier.java
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0076:JAVA0076 Use of magic number '30'
+problem: JAVA0076:JAVA0076 Use of magic number '11'
+problem: JAVA0076:JAVA0076 Use of magic number '250'
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '80'
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0160:JAVA0160 Method 'validate' does not throw specified exception 'net.sf.jconverse.exceptions.ValidationException'
+problem: JAVA0076:JAVA0076 Use of magic number '10000'
+problem: JAVA0259:JAVA0259 Return of collection field 'this.lignes'
+problem: JAVA0256:JAVA0256 Assignment of external collection to field 'this.lignes'
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/LignesDossier.java
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0076:JAVA0076 Use of magic number '30'
+problem: JAVA0076:JAVA0076 Use of magic number '40'
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0173:JAVA0173 Unused method parameter 'hints'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0076:JAVA0076 Use of magic number '1000'
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/PhoneNumber.java
+problem: JAVA0137:JAVA0137 Non-abstract class 'PhoneNumber' missing constructor
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/Poste.java
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0076:JAVA0076 Use of magic number '30'
+problem: JAVA0076:JAVA0076 Use of magic number '40'
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/RecherchePoste.java
+problem: JAVA0058:JAVA0058 Constructor 'RecherchePoste' calls super()
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '200'
+problem: JAVA0076:JAVA0076 Use of magic number '300'
+problem: JAVA0076:JAVA0076 Use of magic number '400'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0144:JAVA0144 Line exceeds maximum 132 characters
+problem: JAVA0179:JAVA0179 Local variable 'str_postesTrouves' hides visible field
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/ajaxsamples/CacherOuMontrerChamp_Source.java
+problem: JAVA0137:JAVA0137 Non-abstract class 'CacherOuMontrerChamp_Source' missing constructor
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '200'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0173:JAVA0173 Unused method parameter 'f'
+problem: JAVA0179:JAVA0179 Local variable 'champ' hides visible field
+problem: JAVA0179:JAVA0179 Local variable 'champ' hides visible field
+problem: JAVA0179:JAVA0179 Local variable 'champ' hides visible field
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/ajaxsamples/CacherOuMontrerChamp_Tutorial.java
+problem: JAVA0137:JAVA0137 Non-abstract class 'CacherOuMontrerChamp_Tutorial' missing constructor
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '200'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0173:JAVA0173 Unused method parameter 'f'
+problem: JAVA0179:JAVA0179 Local variable 'champ' hides visible field
+problem: JAVA0179:JAVA0179 Local variable 'champ' hides visible field
+problem: JAVA0179:JAVA0179 Local variable 'champ' hides visible field
+problem: JAVA0076:JAVA0076 Use of magic number '1000'
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/ajaxsamples/ChoisirNombreEntre1Et10_Source.java
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '200'
+problem: JAVA0076:JAVA0076 Use of magic number '300'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0173:JAVA0173 Unused method parameter 'f'
+problem: JAVA0179:JAVA0179 Local variable 'entreeValide' hides visible field
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/ajaxsamples/ChoisirNombreEntre1Et10_Tutorial.java
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '200'
+problem: JAVA0076:JAVA0076 Use of magic number '300'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0173:JAVA0173 Unused method parameter 'f'
+problem: JAVA0179:JAVA0179 Local variable 'entreeValide' hides visible field
+problem: JAVA0076:JAVA0076 Use of magic number '10'
+problem: JAVA0076:JAVA0076 Use of magic number '1000'
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/ajaxsamples/ImageDynamique_Source.java
+problem: JAVA0137:JAVA0137 Non-abstract class 'ImageDynamique_Source' missing constructor
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+problem: JAVA0265:JAVA0265 Use of Throwable.printStackTrace()
+problem: JAVA0242:JAVA0242 Transient field 'image' in non-Serializable class
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '200'
+problem: JAVA0076:JAVA0076 Use of magic number '300'
+problem: JAVA0076:JAVA0076 Use of magic number '350'
+problem: JAVA0076:JAVA0076 Use of magic number '400'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0173:JAVA0173 Unused method parameter 'f'
+problem: JAVA0034:JAVA0034 Missing braces in if statement
+problem: JAVA0076:JAVA0076 Use of magic number '1024'
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+path: /jconverse-crud-template/src/domain/fr/sstic/template/domain/ajaxsamples/ImageDynamique_Tutorial.java
+problem: JAVA0137:JAVA0137 Non-abstract class 'ImageDynamique_Tutorial' missing constructor
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+problem: JAVA0265:JAVA0265 Use of Throwable.printStackTrace()
+problem: JAVA0242:JAVA0242 Transient field 'image' in non-Serializable class
+problem: JAVA0076:JAVA0076 Use of magic number '100'
+problem: JAVA0076:JAVA0076 Use of magic number '200'
+problem: JAVA0076:JAVA0076 Use of magic number '300'
+problem: JAVA0076:JAVA0076 Use of magic number '350'
+problem: JAVA0076:JAVA0076 Use of magic number '400'
+problem: JAVA0173:JAVA0173 Unused method parameter 'mode'
+problem: JAVA0173:JAVA0173 Unused method parameter 'f'
+problem: JAVA0034:JAVA0034 Missing braces in if statement
+problem: JAVA0076:JAVA0076 Use of magic number '1024'
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
+problem: JAVA0076:JAVA0076 Use of magic number '1000'
+path: /jconverse-crud-template/src/tests/fr/sstic/template/TestQuery.java
+problem: JAVA0246:JAVA0246 JUnit assertXXX statement missing message parameter
+problem: JAVA0166:JAVA0166 Generic exception 'java.lang.Exception' caught
