@@ -40,7 +40,6 @@ public class Produit {
   @Hidden
   @GeneratedUID
   @Id
-  @Column(length = 9)
   public Long getId() {
     return this.id;
   }

@@ -5,6 +5,7 @@ import net.jconverse.template.CreateDatabase;
 import net.jconverse.template.TemplateFactory;
 import net.jconverse.template.UpdateDatabase;
 import net.jconverse.template.domain.Commande;
+import net.jconverse.template.domain.Commande.Statut;
 import net.jconverse.template.presentation.TemplateBundle;
 import net.sf.jconverse.components.ActionEvent;
 import net.sf.jconverse.components.ActionListener;
@@ -19,6 +20,7 @@ import net.sf.jconverse.crud.ListParameters;
 import net.sf.jconverse.crud.ListParameters.SearchMode;
 import net.sf.jconverse.crud.ParameterConversation;
 import net.sf.jconverse.crud.ViewParamerters;
+import net.sf.jconverse.crud.storage.condition.SearchFilter;
 import net.sf.jconverse.extensions.conversation.AbstractConversation;
 import net.sf.jconverse.extensions.conversation.RootConversation;
 import net.sf.jconverse.extensions.conversation.VersionConversation;
@@ -115,8 +117,8 @@ public class MainConversation extends AbstractConversation implements SecureConv
     WPanel panel = new WPanel("Commandes");
     panel.addComment("Saisir une commande passée par un client régulier");
     final Commande commande = new Commande();
-
     commande.init(TemplateFactory.getInstance(false).getPermanentReadOnlyDataAccessLayer());
+    commande.setStatut(Statut.Commandee);
     final ListParameters<Commande> listParameter = ListParameters.create(TemplateFactory.getInstance(false), Commande.class)
         .setAllowEdit(true).setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start);
     panel.addButton(new Button(TemplateBundle.listerCommandes, listParameter.createConversation(), TemplateFactory.user_role));
@@ -133,6 +135,14 @@ public class MainConversation extends AbstractConversation implements SecureConv
       }
     });
     panel.addButton(new Button(TemplateBundle.ajoutCommande, params.createConversation(), TemplateFactory.user_role));
+    SearchFilter<Commande> sf = SearchFilter.create(Commande.class);
+    sf.and("src.statut is null or src.statut!='" + Statut.Livree + "'");
+    final ListParameters<Commande> listNonLivreeParam = ListParameters.create(TemplateFactory.getInstance(false), Commande.class)
+        .setAllowEdit(true).setAllowRemove(true).setFfilter(sf).setSearchMode(SearchMode.FILTER)
+        .setExitListener(BasicActions.Start);
+    panel.addButton(new Button(TemplateBundle.listerNonLivrees, listNonLivreeParam.createConversation(),
+        TemplateFactory.user_role));
+
     menu.add(panel);
   }
 }

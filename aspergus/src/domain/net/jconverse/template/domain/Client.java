@@ -56,7 +56,7 @@ public class Client {
 
   @Order(700)
   @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
-  @Inline(editDirectly = true, inEdit = true)
+  @Inline(editDirectly = true, inEdit = true, inView = true)
   public Collection<Commande> getCommandes() {
     return commandes;
   }

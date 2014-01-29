@@ -49,6 +49,7 @@ import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
 import net.sf.jconverse.crud.builder.DisplayMode;
 import net.sf.jconverse.crud.builder.Finder;
 import net.sf.jconverse.crud.field.Hints;
+import net.sf.jconverse.laf.styles.Styles;
 import net.sourceforge.cristalmodel.annotations.DisplayConstraints;
 import net.sourceforge.cristalmodel.annotations.Order;
 
@@ -340,6 +341,7 @@ public class Commande {
   @InList()
   @Order(1700)
   @Uneditable
+  @Enumerated(EnumType.STRING)
   public Statut getStatut() {
     return statut;
   }
@@ -369,6 +371,26 @@ public class Commande {
           return BasicActions.Start;
         }
       }));
+
+      hints.addAction(new Action("Préparée", new CrudCommand() {
+
+        @Override
+        public Transition run(CrudEvent event) throws Exception {
+          setDatePreparation(CalendarFactory.getToday().getTime());
+          setStatut(Statut.Preparee);
+          return BasicActions.Start;
+        }
+      }).addStyle(Styles.CANCEL));
+
+      hints.addAction(new Action("Livrée", new CrudCommand() {
+
+        @Override
+        public Transition run(CrudEvent event) throws Exception {
+          setDateLivraison(CalendarFactory.getToday().getTime());
+          setStatut(Statut.Livree);
+          return BasicActions.Start;
+        }
+      }).addStyle(Styles.OK));
     }
   }
 }

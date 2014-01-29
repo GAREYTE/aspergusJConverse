@@ -82,11 +82,11 @@ public class CommandeDetail {
   }
 
   @Order(200)
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @Choice(display = Display.COMBO, value = Mode.SELECTION)
   @InList
   @InEditableList
-  @Required
+  @Required(displayComboWithEmptyValue = true)
   public Produit getProduit() {
     return produit;
   }
