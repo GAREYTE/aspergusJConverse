@@ -12,11 +12,13 @@ import net.sf.jconverse.components.Button;
 import net.sf.jconverse.components.containers.WPage;
 import net.sf.jconverse.components.containers.WPanel;
 import net.sf.jconverse.conversation.SecureConversation;
+import net.sf.jconverse.conversation.listeners.ConversationListener;
 import net.sf.jconverse.conversation.transitions.BasicActions;
 import net.sf.jconverse.conversation.transitions.Transition;
 import net.sf.jconverse.crud.ListParameters;
 import net.sf.jconverse.crud.ListParameters.SearchMode;
 import net.sf.jconverse.crud.ParameterConversation;
+import net.sf.jconverse.crud.ViewParamerters;
 import net.sf.jconverse.extensions.conversation.AbstractConversation;
 import net.sf.jconverse.extensions.conversation.RootConversation;
 import net.sf.jconverse.extensions.conversation.VersionConversation;
@@ -34,21 +36,19 @@ public class MainConversation extends AbstractConversation implements SecureConv
 
     WPage menu = new WPage(TemplateBundle.application);
 
-    WPanel field = new WPanel("");
+    addCommandePanel(menu);
+    addClientPanel(menu);
+    addVentePanel(menu);
 
-    field.addButton(new Button(TemplateBundle.gestion, ListParameters.create(TemplateFactory.getInstance(false), Commande.class)
-        .setAllowAdd(true).setAllowEdit(true).setAllowRemove(true).setSearchMode(SearchMode.SEARCH)
-        .setExitListener(BasicActions.Start).createConversation(), TemplateFactory.user_role));
+    WPanel admin = new WPanel("Paramétrage");
 
-    menu.add(field);
-
-    field.addButton(new Button(TemplateBundle.gestionParametres, new ParameterConversation(TemplateFactory.getInstance(false),
+    admin.addButton(new Button(TemplateBundle.gestionParametres, new ParameterConversation(TemplateFactory.getInstance(false),
         BasicActions.Start), TemplateFactory.admin_role));
 
     boolean autoriserModificationDeBaseEnWeb = true;
 
     if (autoriserModificationDeBaseEnWeb) {
-      field.addButton(new Button(TemplateBundle.creerBase, new ActionListener() {
+      admin.addButton(new Button(TemplateBundle.creerBase, new ActionListener() {
 
         @Override
         public Transition actionPerformed(ActionEvent event) throws Exception {
@@ -60,7 +60,7 @@ public class MainConversation extends AbstractConversation implements SecureConv
         }
       }, TemplateFactory.admin_role).addStyle(Styles.LINE_BREAK_BEFORE));
 
-      field.addButton(new Button(TemplateBundle.majBase, new ActionListener() {
+      admin.addButton(new Button(TemplateBundle.majBase, new ActionListener() {
 
         @Override
         public Transition actionPerformed(ActionEvent event) throws Exception {
@@ -71,12 +71,68 @@ public class MainConversation extends AbstractConversation implements SecureConv
       }, TemplateFactory.admin_role));
     }
 
-    menu.add(field);
+    admin.addButton(new Button(TemplateBundle.showAdmin, new AdminConversation(BasicActions.Start), TemplateFactory.admin));
 
-    menu.addButton(new Button(TemplateBundle.showAdmin, new AdminConversation(BasicActions.Start), TemplateFactory.admin));
-
-    menu.addButton(new Button(TemplateBundle.showVersion, new VersionConversation(BasicActions.Start)));
+    admin.addButton(new Button(TemplateBundle.showVersion, new VersionConversation(BasicActions.Start)));
+    menu.add(admin);
 
     return menu;
+  }
+
+  private void addClientPanel(WPage menu) {
+    WPanel panel = new WPanel("Clients");
+
+    panel.addButton(new Button(TemplateBundle.ajoutClient, ListParameters
+        .create(TemplateFactory.getInstance(false), net.jconverse.template.domain.Client.class).setAllowAdd(true)
+        .setAllowEdit(true).setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start)
+        .createConversation(), TemplateFactory.user_role));
+
+    menu.add(panel);
+  }
+
+  private void addVentePanel(WPage menu) {
+    WPanel panel = new WPanel("Ventes directes au magasin");
+    panel.addComment("Saisir une vente au magasin (Client de passage)");
+    panel.addButton(new Button(TemplateBundle.ajoutVente, ListParameters
+        .create(TemplateFactory.getInstance(false), Commande.class).setAllowAdd(true).setAllowEdit(true).setAllowRemove(true)
+        .setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start).createConversation(), TemplateFactory.user_role)
+        .addStyle(Styles.DOUBLE_SIZE));
+
+    menu.add(panel);
+  }
+
+  private void addStatsPanel(WPage menu) {
+    WPanel panel = new WPanel("Stats");
+    panel.addButton(new Button(TemplateBundle.ajoutCommande, ListParameters
+        .create(TemplateFactory.getInstance(false), Commande.class).setAllowAdd(true).setAllowEdit(true).setAllowRemove(true)
+        .setSearchMode(SearchMode.SEARCH).setExitListener(BasicActions.Start).createConversation(), TemplateFactory.user_role)
+        .addStyle(Styles.DOUBLE_SIZE));
+
+    menu.add(panel);
+  }
+
+  private void addCommandePanel(WPage menu) {
+    WPanel panel = new WPanel("Commandes");
+    panel.addComment("Saisir une commande passée par un client régulier");
+    final Commande commande = new Commande();
+
+    commande.init(TemplateFactory.getInstance(false).getPermanentReadOnlyDataAccessLayer());
+    final ListParameters<Commande> listParameter = ListParameters.create(TemplateFactory.getInstance(false), Commande.class)
+        .setAllowEdit(true).setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start);
+    panel.addButton(new Button(TemplateBundle.listerCommandes, listParameter.createConversation(), TemplateFactory.user_role));
+
+    ViewParamerters<Commande> params = ViewParamerters.create(TemplateFactory.getInstance(false), commande);
+    params.setStartInEditMode(true);
+    params.setExitListener(new ConversationListener() {
+
+      @Override
+      public Transition exit() {
+        // TODO Auto-generated method stub
+        listParameter.setSelection(commande);
+        return listParameter.createConversation();
+      }
+    });
+    panel.addButton(new Button(TemplateBundle.ajoutCommande, params.createConversation(), TemplateFactory.user_role));
+    menu.add(panel);
   }
 }

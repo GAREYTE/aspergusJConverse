@@ -21,7 +21,10 @@ public enum TemplateBundle implements InternationalizedText, InternationalizedCo
   showAdmin(new FR("Administration")),
 
   application(new FR("Application")),
-  gestion(new FR("Création / Modification")),
+  ajoutCommande(new FR("Ajouter commande", "Permet d'ajouter une commande")),
+  ajoutClient(new FR("Ajouter / lister clients", "Permet de voir la liste et d'ajouter des clients")),
+  ajoutVente(new FR("Ajouter vente", "Ajoute une vente")),
+
   gestionParametres(new FR("Paramètres")),
 
   showVersion(new FR("Version")),
@@ -41,7 +44,8 @@ public enum TemplateBundle implements InternationalizedText, InternationalizedCo
 
   consulter(new FR("Consulter")),
   description(new FR("Description")),
-  autresDetails(new FR("Autres détails")), ;
+  autresDetails(new FR("Autres détails")),
+  listerCommandes(new FR("Lister commandes", "Permet de lister les commandes"));
 
   // -----------------------------------------------------------
   //                  Common definitions

@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,11 +23,17 @@ import net.sf.cristaltools.tools.date.CalendarFactory;
 import net.sf.jasql.command.ReadonlyStatement;
 import net.sf.jasql.data.Result;
 import net.sf.jasql.sql.TextQuery;
+import net.sf.jconverse.conversation.transitions.BasicActions;
+import net.sf.jconverse.conversation.transitions.Transition;
+import net.sf.jconverse.crud.Action;
+import net.sf.jconverse.crud.CrudEvent;
+import net.sf.jconverse.crud.actions.CrudCommand;
 import net.sf.jconverse.crud.annotations.gui.Choice;
 import net.sf.jconverse.crud.annotations.gui.Choice.Display;
 import net.sf.jconverse.crud.annotations.gui.Choice.Mode;
 import net.sf.jconverse.crud.annotations.gui.DefaultEditValue;
 import net.sf.jconverse.crud.annotations.gui.DefaultToday;
+import net.sf.jconverse.crud.annotations.gui.Inline;
 import net.sf.jconverse.crud.annotations.gui.Required;
 import net.sf.jconverse.crud.annotations.gui.Size;
 import net.sf.jconverse.crud.annotations.gui.View;
@@ -39,7 +46,10 @@ import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InView;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
 import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
+import net.sf.jconverse.crud.builder.DisplayMode;
 import net.sf.jconverse.crud.builder.Finder;
+import net.sf.jconverse.crud.field.Hints;
+import net.sourceforge.cristalmodel.annotations.DisplayConstraints;
 import net.sourceforge.cristalmodel.annotations.Order;
 
 import org.joda.time.DateTime;
@@ -96,17 +106,27 @@ public class Commande {
 
   public Commande() {
     this.details = new ArrayList<>();
+    CommandeDetail detail = new CommandeDetail();
+    this.details.add(detail);
   }
 
-  public void init(Finder f) throws Exception {
+  public void init(Finder f) {
     setDateCommande(CalendarFactory.getNow().getTime());
     TextQuery tq = new TextQuery();
     tq.select("max(numero)").from(" commande");
-    Result res = f.execute(new ReadonlyStatement(tq));
-    Integer numero = 0;
-    if (res.getRowCount() > 0 && res.getInteger(0, 0) != null)
-      numero = res.getInteger(0, 0);
-    setNumero(numero + 1);
+    Result res;
+    try {
+      res = f.execute(new ReadonlyStatement(tq));
+      Integer numero = 0;
+      if (res.getRowCount() > 0 && res.getInteger(0, 0) != null)
+        numero = res.getInteger(0, 0);
+      setNumero(numero + 1);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      net.sf.cristaltools.log.Log.getCurrent().error("Impossible de déterminer le numéro de commande", e);
+
+    }
+
   }
 
   public void setId(Long id) {
@@ -197,6 +217,7 @@ public class Commande {
 
   @Order(1500)
   @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
+  @Inline(editDirectly = true, inEdit = true)
   public Collection<CommandeDetail> getDetails() {
     return details;
   }
@@ -205,7 +226,7 @@ public class Commande {
     this.details = details;
   }
 
-  public void addDetails(CommandeDetail detail) {
+  public void addDetail(CommandeDetail detail) {
     detail.setCommande(this);
     this.details.add(detail);
   }
@@ -328,9 +349,26 @@ public class Commande {
   }
 
   @PreUpdate
+  @PrePersist
   public void update() {
     DateTime date = new DateTime(getDateCommande());
     setAnnee(date.getYear());
 
+  }
+
+  @DisplayConstraints
+  public void setupConstraints(final Hints hints, final DisplayMode mode, final Finder f) {
+
+    if (mode.equals(DisplayMode.EDITION)) {
+      hints.addAction("getDetails", new Action("Ajouter", new CrudCommand() {
+
+        @Override
+        public Transition run(CrudEvent event) throws Exception {
+          CommandeDetail det = new CommandeDetail();
+          addDetail(det);
+          return BasicActions.Start;
+        }
+      }));
+    }
   }
 }

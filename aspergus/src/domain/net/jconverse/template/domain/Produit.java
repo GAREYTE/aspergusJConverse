@@ -15,6 +15,7 @@ import net.sf.jconverse.crud.annotations.gui.Visibilities.InList;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InSelect;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
+import net.sf.jconverse.crud.annotations.gui.format.FormatDecimal;
 import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
 import net.sourceforge.cristalmodel.annotations.Order;
 
@@ -74,6 +75,7 @@ public class Produit {
   @InLabel
   @InSelect
   @InList
+  @FormatDecimal(edit = "0.00€", value = "0,00€")
   public BigDecimal getPrixUnitaire() {
     return prixUnitaire;
   }
@@ -87,7 +89,7 @@ public class Produit {
   @Required
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @InLabel
-  @InSelect
+  @InSelect(groupBy = true)
   @InList
   public Categorie getCategorie() {
     return categorie;
