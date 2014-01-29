@@ -72,15 +72,19 @@ public class AddParameters {
 
       int indice = 0;
       message.addText("Création des produits...");
+      Float[] prix = new Float[] { 4.0f, 4f, 4.5f, 5.6f, 3.0f, 3.5f, 4.0f, 4.5f };
+      int indicePrix = 0;
       for (String s : new String[] { "12/16", "16+", "22+", "30+" }) {
         for (Categorie categorie : cats) {
           Produit prod = new Produit();
           prod.setCategorie(categorie);
           prod.setNumero(indice);
           prod.setDescription(s);
-          prod.setPrixUnitaire(new BigDecimal(5.00 + indice));
+          prod.setPrixUnitaire(new BigDecimal(prix[indicePrix++]));
           indice++;
+          t.add(prod);
         }
+
       }
 
       message.addText("Création des clients...");

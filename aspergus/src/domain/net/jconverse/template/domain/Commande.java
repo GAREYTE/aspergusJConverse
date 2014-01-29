@@ -1,22 +1,64 @@
 package net.jconverse.template.domain;
 
-import java.math.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
-import javax.persistence.*;
-import javax.xml.ws.soap.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import net.sf.cristaltools.tools.date.CalendarFactory;
+import net.sf.jasql.command.ReadonlyStatement;
+import net.sf.jasql.data.Result;
+import net.sf.jasql.sql.TextQuery;
 import net.sf.jconverse.crud.annotations.gui.Choice;
 import net.sf.jconverse.crud.annotations.gui.Choice.Display;
 import net.sf.jconverse.crud.annotations.gui.Choice.Mode;
+import net.sf.jconverse.crud.annotations.gui.DefaultEditValue;
+import net.sf.jconverse.crud.annotations.gui.DefaultToday;
 import net.sf.jconverse.crud.annotations.gui.Required;
+import net.sf.jconverse.crud.annotations.gui.Size;
+import net.sf.jconverse.crud.annotations.gui.View;
+import net.sf.jconverse.crud.annotations.gui.Views;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InEdit;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InLabel;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InList;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InView;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
 import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
+import net.sf.jconverse.crud.builder.Finder;
 import net.sourceforge.cristalmodel.annotations.Order;
 
+import org.joda.time.DateTime;
+
 @Entity
+@Views(value = { @View(name = "Préparation", multicolumn = 2) })
 public class Commande {
+  public enum Tva {
+    Vingt("20%"),
+    Cinq("5.5%"),
+    Zero("0%");
+
+    private String label;
+
+    private Tva(String label) {
+      this.label = label;
+    }
+
+  }
 
   public enum Statut {
     Commandee,
@@ -24,7 +66,7 @@ public class Commande {
     Livree
   };
 
-  private int annee;
+  private Integer annee;
 
   private Integer numero;
 
@@ -40,7 +82,7 @@ public class Commande {
 
   private Salarie livrePar;
 
-  private int tva;
+  private Tva tva;
 
   private Client client;
 
@@ -56,11 +98,22 @@ public class Commande {
     this.details = new ArrayList<>();
   }
 
+  public void init(Finder f) throws Exception {
+    setDateCommande(CalendarFactory.getNow().getTime());
+    TextQuery tq = new TextQuery();
+    tq.select("max(numero)").from(" commande");
+    Result res = f.execute(new ReadonlyStatement(tq));
+    Integer numero = 0;
+    if (res.getRowCount() > 0 && res.getInteger(0, 0) != null)
+      numero = res.getInteger(0, 0);
+    setNumero(numero + 1);
+  }
+
   public void setId(Long id) {
     this.id = id;
   }
 
-  @Order(0)
+  @Order(1800)
   @Uneditable
   @Hidden
   @Id
@@ -69,46 +122,27 @@ public class Commande {
     return this.id;
   }
 
-  @Transient
-  public BigDecimal getQuantite() {
-    BigDecimal sum = BigDecimal.ZERO;
-    for (CommandeDetail detail : details) {
-      sum = sum.add(detail.getQuantite());
-    }
-    return sum;
-  }
-
-  @Transient
-  public BigDecimal getSum() {
-    BigDecimal sum = BigDecimal.ZERO;
-    for (CommandeDetail detail : details) {
-      sum = sum.add(detail.getAmount());
-    }
-    return sum;
-  }
-
-  @Transient
-  public BigDecimal getVat() {
-    return getSum().multiply(new BigDecimal(getTva()).divide(new BigDecimal(100))).setScale(2, RoundingMode.UP);
-  }
-
-  @Transient
-  public BigDecimal getTotal() {
-    return getSum().add(getVat()).setScale(2, RoundingMode.UP);
-  }
-
+  @InSearch()
+  @InList()
+  @Order(500)
   @Column(length = 4)
   @Required
-  public int getAnnee() {
+  @Uneditable
+  public Integer getAnnee() {
     return annee;
   }
 
-  public void setAnnee(int year) {
+  public void setAnnee(Integer year) {
     this.annee = year;
   }
 
+  @InSearch()
+  @InList()
+  @Order(600)
   @Column(length = 6)
   @Required
+  @Uneditable(exceptInAdminMode = true)
+  @InLabel
   public Integer getNumero() {
     return numero;
   }
@@ -117,7 +151,14 @@ public class Commande {
     this.numero = number;
   }
 
+  @InSearch(view = "Préparation")
+  @InList()
+  @Order(700)
   @Required
+  @Temporal(TemporalType.TIMESTAMP)
+  @InView(view = "Préparation")
+  @InEdit(view = "Préparation")
+  @DefaultEditValue(DefaultToday.class)
   public Date getDateCommande() {
     return dateCommande;
   }
@@ -126,18 +167,26 @@ public class Commande {
     this.dateCommande = date;
   }
 
-  @Column(length = 2)
+  @InSearch()
+  @InList()
+  @Order(1300)
   @Required
-  public int getTva() {
+  @Enumerated(EnumType.STRING)
+  public Tva getTva() {
     return tva;
   }
 
-  public void setTva(int vatPercentage) {
+  public void setTva(Tva vatPercentage) {
     this.tva = vatPercentage;
   }
 
+  @InSearch()
+  @InList()
+  @Order(1400)
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @Choice(value=Mode.SELECTION,display=Display.COMBO)
+  @Required(displayComboWithEmptyValue = true)
+  @Choice(value = Mode.EDITION, display = Display.COMBO)
+  @InLabel
   public Client getClient() {
     return client;
   }
@@ -146,7 +195,8 @@ public class Commande {
     this.client = client;
   }
 
-  @OneToMany(mappedBy = "commande", cascade = CascadeType.REMOVE)
+  @Order(1500)
+  @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
   public Collection<CommandeDetail> getDetails() {
     return details;
   }
@@ -155,6 +205,33 @@ public class Commande {
     this.details = details;
   }
 
+  public void addDetails(CommandeDetail detail) {
+    detail.setCommande(this);
+    this.details.add(detail);
+  }
+
+  public void removeDetails(CommandeDetail detail) {
+    detail.setCommande(null);
+    this.details.remove(detail);
+  }
+
+  public CommandeDetail summaryDetails() {
+    CommandeDetail sum = new CommandeDetail();
+    BigDecimal qte = BigDecimal.ZERO;
+    BigDecimal total = BigDecimal.ZERO;
+    for (CommandeDetail det : getDetails()) {
+      if (det.getQuantite() != null)
+        qte = qte.add(det.getQuantite());
+      if (det.getTotal() != null)
+        total = total.add(det.getTotal());
+    }
+    sum.setQuantite(qte);
+    sum.setTotal(total);
+    return sum;
+  }
+
+  @Order(1600)
+  @Size(value = { 40, 3 })
   public String getRemarque() {
     return remarque;
   }
@@ -163,6 +240,12 @@ public class Commande {
     this.remarque = remarks;
   }
 
+  @InSearch(view = "Préparation")
+  @InList()
+  @Order(900)
+  @Temporal(TemporalType.TIMESTAMP)
+  @InView(view = "Préparation")
+  @InEdit(view = "Préparation")
   public Date getDatePreparation() {
     return datePreparation;
   }
@@ -171,9 +254,14 @@ public class Commande {
     this.datePreparation = datePreparation;
   }
 
+  @InSearch(view = "Préparation")
+  @InList()
+  @Order(800)
   @Choice(value = Mode.SELECTION, display = Display.COMBO)
   @ManyToOne()
-  @Required
+  @Required(displayComboWithEmptyValue = true)
+  @InView(view = "Préparation")
+  @InEdit(view = "Préparation")
   public Salarie getPrisePar() {
     return prisePar;
   }
@@ -182,8 +270,14 @@ public class Commande {
     this.prisePar = prisePar;
   }
 
+  @InSearch(view = "Préparation")
+  @InList()
+  @Order(1000)
   @Choice(value = Mode.SELECTION, display = Display.COMBO)
   @ManyToOne()
+  @InView(view = "Préparation")
+  @InEdit(view = "Préparation")
+  @InLabel
   public Salarie getPreparePar() {
     return preparePar;
   }
@@ -192,6 +286,12 @@ public class Commande {
     this.preparePar = preparePar;
   }
 
+  @InSearch(view = "Préparation")
+  @InList()
+  @Order(1100)
+  @Temporal(TemporalType.TIMESTAMP)
+  @InView(view = "Préparation")
+  @InEdit(view = "Préparation")
   public Date getDateLivraison() {
     return dateLivraison;
   }
@@ -200,8 +300,13 @@ public class Commande {
     this.dateLivraison = dateLivraison;
   }
 
+  @InSearch(view = "Préparation")
+  @InList()
+  @Order(1200)
   @Choice(value = Mode.SELECTION, display = Display.COMBO)
   @ManyToOne()
+  @InView(view = "Préparation")
+  @InEdit(view = "Préparation")
   public Salarie getLivrePar() {
     return livrePar;
   }
@@ -210,6 +315,10 @@ public class Commande {
     this.livrePar = livrePar;
   }
 
+  @InSearch()
+  @InList()
+  @Order(1700)
+  @Uneditable
   public Statut getStatut() {
     return statut;
   }
@@ -218,4 +327,10 @@ public class Commande {
     this.statut = type;
   }
 
+  @PreUpdate
+  public void update() {
+    DateTime date = new DateTime(getDateCommande());
+    setAnnee(date.getYear());
+
+  }
 }

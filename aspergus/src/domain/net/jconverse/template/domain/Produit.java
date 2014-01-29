@@ -1,80 +1,100 @@
 package net.jconverse.template.domain;
 
+import java.math.BigDecimal;
 
-import java.math.*;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import net.sf.jconverse.crud.annotations.gui.Required;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InLabel;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InList;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InSelect;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
 import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
 import net.sourceforge.cristalmodel.annotations.Order;
 
-
 @Entity
 public class Produit {
-	
-	@Id @Column(length=9)
-	private int numero;
-	
-	@Column(length=40) @Required
-	private String description;
-	
-	@Required
-	@ManyToOne(optional=false, fetch=FetchType.LAZY)
-	private Categorie categorie;
-	
-	@Required
-	private BigDecimal prixUnitaire;
-	private Long id;
 
-	public void setId(Long id) {
-	  this.id = id;
-	}
+  private Integer numero;
 
-	@Order(0)
-	@Uneditable
-	@Hidden
-	@Id
-	@GeneratedUID
-	
-	public Long getId() {
-	  return this.id;
-	}
-	 
-	public int getNumero() {
-		return numero;
-	}
+  private String description;
 
-	public void setNumero(int number) {
-		this.numero = number;
-	}
+  private Categorie categorie;
 
-	public String getDescription() {
-		return description;
-	}
+  private BigDecimal prixUnitaire;
+  private Long id;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public BigDecimal getPrixUnitaire() {
-		return prixUnitaire;
-	}
+  @Order(500)
+  @Uneditable
+  @Hidden
+  @GeneratedUID
+  @Id
+  @Column(length = 9)
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setPrixUnitaire(BigDecimal unitPrice) {
-		this.prixUnitaire = unitPrice;
-	}
+  @InSearch()
+  @Order(100)
+  public Integer getNumero() {
+    return numero;
+  }
 
-	
-	@ManyToOne
-	public Categorie getCategorie() {
-		return categorie;
-	}
+  public void setNumero(Integer number) {
+    this.numero = number;
+  }
 
-	public void setCategorie(Categorie categorie) {
-		this.categorie = categorie;
-	}
+  @InSearch()
+  @Order(200)
+  @Column(length = 40)
+  @Required
+  @InList
+  @InSelect
+  @InLabel
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  @Order(300)
+  @Required
+  @InLabel
+  @InSelect
+  @InList
+  public BigDecimal getPrixUnitaire() {
+    return prixUnitaire;
+  }
+
+  public void setPrixUnitaire(BigDecimal unitPrice) {
+    this.prixUnitaire = unitPrice;
+  }
+
+  @InSearch()
+  @Order(400)
+  @Required
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @InLabel
+  @InSelect
+  @InList
+  public Categorie getCategorie() {
+    return categorie;
+  }
+
+  public void setCategorie(Categorie categorie) {
+    this.categorie = categorie;
+  }
 
 }
