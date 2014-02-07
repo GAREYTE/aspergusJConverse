@@ -12,10 +12,10 @@
 		value="net.jconverse.template.presentation.PresentationConfig" />
 	<property name="manager-server" value="http://template.jconverse.net/manager" />
 	<property name="dbToBackup.name" value="template" />
-<!--  	<property name="authentification-type" value="none" />-->
+  	<property name="authentification-type" value="none" />
 	<property name="vendor" value="Jconverse" />
 
-	 <property name="authentification-type" value="container" /> 
+<!-- 	 <property name="authentification-type" value="container" /> -->
 
 
 	<property environment="env" />
