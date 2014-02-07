@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="/alexandria-repository/libs/persistence/jpa-api/jpa-2.0-api.jar" sourcepath="/alexandria-repository/libs/persistence/jpa-api/src/hibernate-jpa-2.0-api-1.0.0.Final-sources.zip"/>
 	<classpathentry kind="lib" path="/alexandria-repository/libs/persistence/postgres/postgresql.jar"/>
 	<classpathentry kind="lib" path="/alexandria-repository/libs/utilities/joda-time/joda-time.jar" sourcepath="/alexandria-repository/libs/utilities/joda-time/src/joda-time-1.5.1-sources.zip"/>
+	<classpathentry kind="lib" path="/alexandria-repository/libs/persistence/mysql/mysql-connector-java-5.1.5-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
