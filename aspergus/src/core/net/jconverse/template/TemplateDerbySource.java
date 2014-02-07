@@ -2,13 +2,13 @@ package net.jconverse.template;
 
 import net.sf.jasql.ds.DerbyEmbededSource;
 
-public class TemplateSource extends DerbyEmbededSource {
+public class TemplateDerbySource extends DerbyEmbededSource {
 
-  private static TemplateSource source;
+  private static TemplateDerbySource source;
 
-  public static TemplateSource getInstance() {
+  public static TemplateDerbySource getInstance() {
     if (source == null) {
-      source = new TemplateSource();
+      source = new TemplateDerbySource();
     }
     return source;
   }

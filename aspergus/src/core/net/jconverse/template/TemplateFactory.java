@@ -60,8 +60,8 @@ public class TemplateFactory extends EJBFactory {
 
   @Override
   public SQLSource getSource() {
-    return TemplateSource.getInstance();
-    //return TemplateSource2.getInstance();
+    return TemplateDerbySource.getInstance();
+    //    return TemplateMySqlSource.getInstance();
   }
 
   @Override
