@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import net.sf.jconverse.crud.annotations.gui.Choice;
-import net.sf.jconverse.crud.annotations.gui.Choice.Mode;
 import net.sf.jconverse.crud.annotations.gui.Inline;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InLabel;
@@ -56,7 +54,7 @@ public class Client {
 
   @Order(700)
   @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
-  @Inline(editDirectly = true, inEdit = true, inView = true)
+  @Inline(editDirectly = false, inEdit = false, inView = true)
   public Collection<Commande> getCommandes() {
     return commandes;
   }
@@ -129,10 +127,7 @@ public class Client {
     this.email = email;
   }
 
-  @InSearch()
   @InList()
-  @Inline(editDirectly = true, inEdit = true, inView = true)
-  @Choice(value = Mode.SELECTION)
   @Order(500)
   public Adresse getAdresse() {
     return adresse;

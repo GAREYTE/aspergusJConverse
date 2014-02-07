@@ -23,6 +23,7 @@ import net.sf.cristaltools.tools.date.CalendarFactory;
 import net.sf.jasql.command.ReadonlyStatement;
 import net.sf.jasql.data.Result;
 import net.sf.jasql.sql.TextQuery;
+import net.sf.jconverse.components.JScriptActions.JScriptEvent;
 import net.sf.jconverse.conversation.transitions.BasicActions;
 import net.sf.jconverse.conversation.transitions.Transition;
 import net.sf.jconverse.crud.Action;
@@ -40,6 +41,7 @@ import net.sf.jconverse.crud.annotations.gui.View;
 import net.sf.jconverse.crud.annotations.gui.Views;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InEdit;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InEditableList;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InLabel;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InList;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
@@ -143,6 +145,7 @@ public class Commande {
     return this.id;
   }
 
+  @InEditableList()
   @InSearch()
   @InList()
   @Order(500)
@@ -157,6 +160,7 @@ public class Commande {
     this.annee = year;
   }
 
+  @InEditableList()
   @InSearch()
   @InList()
   @Order(600)
@@ -172,6 +176,7 @@ public class Commande {
     this.numero = number;
   }
 
+  @InEditableList()
   @InSearch(view = "Préparation")
   @InList()
   @Order(700)
@@ -188,6 +193,7 @@ public class Commande {
     this.dateCommande = date;
   }
 
+  @InEditableList()
   @InSearch()
   @InList()
   @Order(1300)
@@ -201,6 +207,7 @@ public class Commande {
     this.tva = vatPercentage;
   }
 
+  @InEditableList()
   @InSearch()
   @InList()
   @Order(1400)
@@ -262,6 +269,7 @@ public class Commande {
     this.remarque = remarks;
   }
 
+  @InEditableList()
   @InSearch(view = "Préparation")
   @InList()
   @Order(900)
@@ -276,6 +284,7 @@ public class Commande {
     this.datePreparation = datePreparation;
   }
 
+  @InEditableList()
   @InSearch(view = "Préparation")
   @InList()
   @Order(800)
@@ -292,6 +301,7 @@ public class Commande {
     this.prisePar = prisePar;
   }
 
+  @InEditableList()
   @InSearch(view = "Préparation")
   @InList()
   @Order(1000)
@@ -308,6 +318,7 @@ public class Commande {
     this.preparePar = preparePar;
   }
 
+  @InEditableList()
   @InSearch(view = "Préparation")
   @InList()
   @Order(1100)
@@ -322,6 +333,7 @@ public class Commande {
     this.dateLivraison = dateLivraison;
   }
 
+  @InEditableList()
   @InSearch(view = "Préparation")
   @InList()
   @Order(1200)
@@ -337,6 +349,7 @@ public class Commande {
     this.livrePar = livrePar;
   }
 
+  @InEditableList()
   @InSearch()
   @InList()
   @Order(1700)
@@ -372,17 +385,22 @@ public class Commande {
         }
       }));
 
-      hints.addAction(new Action("Préparée", new CrudCommand() {
+      Action actionPreparer = new Action("Préparée", new CrudCommand() {
 
         @Override
         public Transition run(CrudEvent event) throws Exception {
+
           setDatePreparation(CalendarFactory.getToday().getTime());
           setStatut(Statut.Preparee);
           return BasicActions.Start;
         }
-      }).addStyle(Styles.CANCEL));
+      }).addStyle(Styles.CANCEL);
+      if (getPreparePar() == null)
+        actionPreparer.setEnabled(false);
 
-      hints.addAction(new Action("Livrée", new CrudCommand() {
+      hints.addAction("getPreparePar", JScriptEvent.OnChange, BasicActions.Start);
+      hints.addAction("getPreparePar", actionPreparer);
+      Action actionLivrer = new Action("Livrée", new CrudCommand() {
 
         @Override
         public Transition run(CrudEvent event) throws Exception {
@@ -390,7 +408,13 @@ public class Commande {
           setStatut(Statut.Livree);
           return BasicActions.Start;
         }
-      }).addStyle(Styles.OK));
+      }).addStyle(Styles.OK);
+      if (getLivrePar() == null)
+        actionLivrer.setEnabled(false);
+
+      hints.addAction("getLivrePar", actionLivrer);
+      hints.addAction("getLivrePar", JScriptEvent.OnChange, BasicActions.Start);
+
     }
   }
 }
