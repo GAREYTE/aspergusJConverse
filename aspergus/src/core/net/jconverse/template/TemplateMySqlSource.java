@@ -1,21 +1,21 @@
 package net.jconverse.template;
 
-import net.sf.jasql.ds.DerbyEmbededSource;
+import net.sf.jasql.ds.MySQLSource;
 
-public class TemplateSource extends DerbyEmbededSource {
+public class TemplateMySqlSource extends MySQLSource {
 
-  private static TemplateSource source;
+  private static TemplateMySqlSource source;
 
-  public static TemplateSource getInstance() {
+  public static TemplateMySqlSource getInstance() {
     if (source == null) {
-      source = new TemplateSource();
+      source = new TemplateMySqlSource();
     }
     return source;
   }
 
   @Override
   public String getDatabaseName() {
-    return "c:/template.db";
+    return "aspergus";
   }
 
   @Override
@@ -41,6 +41,12 @@ public class TemplateSource extends DerbyEmbededSource {
   @Override
   public boolean isProductionDataBase() {
     return false;
+  }
+
+  @Override
+  protected String getServerName() {
+    // TODO Auto-generated method stub
+    return "localhost";
   }
 
 }
