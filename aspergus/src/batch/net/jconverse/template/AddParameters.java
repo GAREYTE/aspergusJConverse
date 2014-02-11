@@ -3,7 +3,6 @@ package net.jconverse.template;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import net.jconverse.template.domain.Adresse;
 import net.jconverse.template.domain.Categorie;
 import net.jconverse.template.domain.Client;
 import net.jconverse.template.domain.Produit;
@@ -89,11 +88,9 @@ public class AddParameters {
 
       message.addText("Création des clients...");
       Client cli = new Client();
-      Adresse add = new Adresse();
-      add.setCodePostal("97422");
-      add.setRue("impasse bec alouette");
-      add.setVille("la Saline");
-      cli.setAdresse(add);
+      cli.setCodePostal("97422");
+      cli.setRue("impasse bec alouette");
+      cli.setVille("la Saline");
       cli.setEmail("jerome_gareyte@yahoo.fr");
       cli.setNom("GAREYTE");
       cli.setPrenom("jerome");
@@ -101,11 +98,9 @@ public class AddParameters {
       t.add(cli);
 
       cli = new Client();
-      add = new Adresse();
-      add.setCodePostal("24220");
-      add.setRue("le mas");
-      add.setVille("Castels");
-      cli.setAdresse(add);
+      cli.setCodePostal("24220");
+      cli.setRue("le mas");
+      cli.setVille("Castels");
       cli.setEmail("luciengareyte@wanadoo.fr");
       cli.setNom("GAREYTE");
       cli.setPrenom("Lucien");

@@ -11,10 +11,12 @@ import javax.persistence.OneToMany;
 
 import net.sf.jconverse.crud.annotations.gui.Inline;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InEdit;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InLabel;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InList;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InSelect;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InView;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
 import net.sf.jconverse.crud.annotations.interceptors.GeneratedUID;
 import net.sf.jconverse.crud.builder.Finder;
@@ -26,12 +28,15 @@ public class Client {
   private String nom;
 
   private String prenom;
-  private Adresse adresse;
 
   private String telephone;
   private String email;
 
   private Long id;
+
+  private String rue;
+  private String codePostal;
+  private String ville;
 
   public Client() {
     this.commandes = new ArrayList<>();
@@ -127,14 +132,34 @@ public class Client {
     this.email = email;
   }
 
-  @InList()
-  @Order(500)
-  public Adresse getAdresse() {
-    return adresse;
+  @InView(view = "Adresse")
+  @InEdit(view = "Adresse")
+  public String getRue() {
+    return rue;
   }
 
-  public void setAdresse(Adresse adresse) {
-    this.adresse = adresse;
+  public void setRue(String adresse) {
+    this.rue = adresse;
+  }
+
+  @InView(view = "Adresse")
+  @InEdit(view = "Adresse")
+  public String getCodePostal() {
+    return codePostal;
+  }
+
+  public void setCodePostal(String codePostal) {
+    this.codePostal = codePostal;
+  }
+
+  @InView(view = "Adresse")
+  @InEdit(view = "Adresse")
+  public String getVille() {
+    return ville;
+  }
+
+  public void setVille(String ville) {
+    this.ville = ville;
   }
 
   @Override

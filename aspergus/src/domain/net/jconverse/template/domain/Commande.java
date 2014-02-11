@@ -226,6 +226,7 @@ public class Commande {
   @Order(1500)
   @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
   @Inline(editDirectly = true, inEdit = true)
+  @InList()
   public Collection<CommandeDetail> getDetails() {
     return details;
   }

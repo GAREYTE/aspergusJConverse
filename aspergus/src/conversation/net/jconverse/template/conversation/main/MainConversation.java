@@ -135,8 +135,10 @@ public class MainConversation extends AbstractConversation implements SecureConv
       }
     });
     panel.addButton(new Button(TemplateBundle.ajoutCommande, params.createConversation(), TemplateFactory.user_role));
+
     SearchFilter<Commande> sf = SearchFilter.create(Commande.class);
     sf.and("src.statut is null or src.statut!='" + Statut.Livree + "'");
+    sf.orderBy("src.dateLivraison", "src.dateCommande");
     final ListParameters<Commande> listNonLivreeParam = ListParameters.create(TemplateFactory.getInstance(false), Commande.class)
         .setAllowEdit(true).setAllowRemove(true).setFfilter(sf).setSearchMode(SearchMode.FILTER)
         .setExitListener(BasicActions.Start);
