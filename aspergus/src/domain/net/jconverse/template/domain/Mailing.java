@@ -28,6 +28,8 @@ import net.sourceforge.cristalmodel.annotations.Order;
 
 @Entity
 public class Mailing {
+  private static final String FROM = "jerome_gareyte@yahoo.fr";
+  private static final String SMTP = "smtp.mail.yahoo.fr";
   private String description;
   private String objet;
   private String message;
@@ -116,11 +118,7 @@ public class Mailing {
           for (Client client : getClients()) {
             emails.add(client.getEmail());
           }
-          MessageSender.sendMessage("smtp.mail.yahoo.fr",
-              "jerome_gareyte@yahoo.fr",
-              getObjet(),
-              getMessage(),
-              emails.toArray(new String[0]));
+          MessageSender.sendMessage(SMTP, FROM, getObjet(), getMessage(), emails.toArray(new String[0]));
           return BasicActions.Start;
         }
       }));
