@@ -46,7 +46,8 @@ public enum TemplateBundle implements InternationalizedText, InternationalizedCo
   description(new FR("Description")),
   autresDetails(new FR("Autres détails")),
   listerCommandes(new FR("Lister commandes", "Permet de lister les commandes")),
-  listerNonLivrees(new FR("Non Livrées", "Liste les commandes non livrées"));
+  listerNonLivrees(new FR("Non Livrées", "Liste les commandes non livrées")),
+  creerMailing(new FR("Créer un mail groupé", "Selectionner des clients et envoyer un mail"));
 
   // -----------------------------------------------------------
   //                  Common definitions

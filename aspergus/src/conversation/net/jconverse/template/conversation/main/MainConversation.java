@@ -6,6 +6,7 @@ import net.jconverse.template.TemplateFactory;
 import net.jconverse.template.UpdateDatabase;
 import net.jconverse.template.domain.Commande;
 import net.jconverse.template.domain.Commande.Statut;
+import net.jconverse.template.domain.Mailing;
 import net.jconverse.template.presentation.TemplateBundle;
 import net.sf.jconverse.components.ActionEvent;
 import net.sf.jconverse.components.ActionListener;
@@ -88,6 +89,10 @@ public class MainConversation extends AbstractConversation implements SecureConv
         .create(TemplateFactory.getInstance(false), net.jconverse.template.domain.Client.class).setAllowAdd(true)
         .setAllowEdit(true).setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start)
         .createConversation(), TemplateFactory.user_role));
+
+    panel.addButton(new Button(TemplateBundle.creerMailing, ListParameters
+        .create(TemplateFactory.getInstance(false), Mailing.class).setAllowAdd(true).setAllowEdit(true).setAllowRemove(true)
+        .setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start).createConversation(), TemplateFactory.user_role));
 
     menu.add(panel);
   }

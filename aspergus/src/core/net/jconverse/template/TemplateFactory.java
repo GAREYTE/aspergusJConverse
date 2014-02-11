@@ -1,6 +1,7 @@
 package net.jconverse.template;
 
 import net.jconverse.template.domain.Commande;
+import net.jconverse.template.domain.Mailing;
 import net.jconverse.template.presentation.PresentationConfig;
 import net.sf.cristaltools.tools.text.Message;
 import net.sf.jasql.cn.SQLSource;
@@ -50,7 +51,7 @@ public class TemplateFactory extends EJBFactory {
 
   @Override
   public Class[] getEntities() {
-    return new Class[] { Commande.class };
+    return new Class[] { Commande.class, Mailing.class };
   }
 
   @Override
