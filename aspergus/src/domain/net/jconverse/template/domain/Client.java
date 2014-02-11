@@ -46,7 +46,7 @@ public class Client {
     this.id = id;
   }
 
-  @Order(600)
+  @Order(800)
   @Uneditable
   @Hidden
   @Id
@@ -57,7 +57,7 @@ public class Client {
 
   private Collection<Commande> commandes;
 
-  @Order(700)
+  @Order(900)
   @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
   @Inline(editDirectly = false, inEdit = false, inView = true)
   public Collection<Commande> getCommandes() {
@@ -132,6 +132,7 @@ public class Client {
     this.email = email;
   }
 
+  @Order(500)
   @InView(view = "Adresse")
   @InEdit(view = "Adresse")
   public String getRue() {
@@ -142,6 +143,7 @@ public class Client {
     this.rue = adresse;
   }
 
+  @Order(600)
   @InView(view = "Adresse")
   @InEdit(view = "Adresse")
   public String getCodePostal() {
@@ -152,6 +154,7 @@ public class Client {
     this.codePostal = codePostal;
   }
 
+  @Order(700)
   @InView(view = "Adresse")
   @InEdit(view = "Adresse")
   public String getVille() {
