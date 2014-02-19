@@ -9,7 +9,7 @@
 	<property name="name" value="template" />
 	<property name="version" value="1.0" />
 	<property name="main"
-		value="net.jconverse.template.presentation.PresentationConfig" />
+		value="fr.jg.aspergus.presentation.PresentationConfig" />
 	<property name="manager-server" value="http://template.jconverse.net/manager" />
 	<property name="dbToBackup.name" value="template" />
   	<property name="authentification-type" value="none" />
@@ -48,8 +48,8 @@
 	</message>
 
 	<target name="build.before" if="needbuild" depends="input.needbuild">
-		<subant target="build.repository-lib" inheritall="false" buildpath="${git}/jconverse/jconverse/build-libs.xml" />
-		<subant target="build.repository-lib" inheritall="false" buildpath="${git}/jconverse-hibernate/jconverse-hibernate/build-libs.xml" />
+		<subant target="build.repository-lib" inheritall="false" buildpath="${repository}/../jconverse/build-libs.xml" />
+		<subant target="build.repository-lib" inheritall="false" buildpath="${repository}/../jconverse-hibernate/build-libs.xml" />
 		
 	</target>
 
