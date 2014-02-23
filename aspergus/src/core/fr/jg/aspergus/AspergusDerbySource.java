@@ -15,7 +15,7 @@ public class AspergusDerbySource extends DerbyEmbededSource {
 
   @Override
   public String getDatabaseName() {
-    return "D:/Aspergus/Aspergus.db";
+    return "/Aspergus/Aspergus.db";
   }
 
   @Override
