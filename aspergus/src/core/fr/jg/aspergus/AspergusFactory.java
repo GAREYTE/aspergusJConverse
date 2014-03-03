@@ -8,6 +8,7 @@ import net.sf.jconverse.security.MockUserProcess;
 import net.sf.jconverse.security.UserProcess;
 import fr.jg.aspergus.domain.Commande;
 import fr.jg.aspergus.domain.Mailing;
+import fr.jg.aspergus.domain.VenteDetail;
 import fr.jg.aspergus.presentation.PresentationConfig;
 
 public class AspergusFactory extends EJBFactory {
@@ -50,7 +51,7 @@ public class AspergusFactory extends EJBFactory {
 
   @Override
   public Class[] getEntities() {
-    return new Class[] { Commande.class, Mailing.class };
+    return new Class[] { Commande.class, Mailing.class, VenteDetail.class };
   }
 
   @Override

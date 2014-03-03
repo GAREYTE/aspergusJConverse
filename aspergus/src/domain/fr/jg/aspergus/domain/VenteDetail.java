@@ -11,19 +11,19 @@ import net.sourceforge.cristalmodel.annotations.DisplayConstraints;
 import net.sourceforge.cristalmodel.annotations.Order;
 
 @Entity
-public class CommandeDetail extends LigneDetail {
+public class VenteDetail extends LigneDetail {
 
-  private Commande commande;
+  private Client client;
 
   @Order(600)
   @ManyToOne()
   @Uneditable
-  public Commande getCommande() {
-    return commande;
+  public Client getClient() {
+    return client;
   }
 
-  public void setCommande(Commande commande) {
-    this.commande = commande;
+  public void setClient(Client client) {
+    this.client = client;
   }
 
   @Override

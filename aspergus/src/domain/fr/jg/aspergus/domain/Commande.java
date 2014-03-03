@@ -245,11 +245,11 @@ public class Commande {
     this.details.remove(detail);
   }
 
-  public CommandeDetail summaryDetails() {
-    CommandeDetail sum = new CommandeDetail();
+  public LigneDetail summaryDetails() {
+    LigneDetail sum = new CommandeDetail();
     BigDecimal qte = BigDecimal.ZERO;
     BigDecimal total = BigDecimal.ZERO;
-    for (CommandeDetail det : getDetails()) {
+    for (LigneDetail det : getDetails()) {
       if (det.getQuantite() != null)
         qte = qte.add(det.getQuantite());
       if (det.getTotal() != null)

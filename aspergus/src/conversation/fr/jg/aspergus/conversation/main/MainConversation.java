@@ -1,13 +1,7 @@
 package fr.jg.aspergus.conversation.main;
 
-import fr.jg.aspergus.AddParameters;
-import fr.jg.aspergus.CreateDatabase;
-import fr.jg.aspergus.AspergusFactory;
-import fr.jg.aspergus.UpdateDatabase;
-import fr.jg.aspergus.domain.Commande;
-import fr.jg.aspergus.domain.Commande.Statut;
-import fr.jg.aspergus.domain.Mailing;
-import fr.jg.aspergus.presentation.AspergusBundle;
+import java.util.List;
+
 import net.sf.jconverse.components.ActionEvent;
 import net.sf.jconverse.components.ActionListener;
 import net.sf.jconverse.components.Button;
@@ -21,11 +15,24 @@ import net.sf.jconverse.crud.ListParameters;
 import net.sf.jconverse.crud.ListParameters.SearchMode;
 import net.sf.jconverse.crud.ParameterConversation;
 import net.sf.jconverse.crud.ViewParamerters;
+import net.sf.jconverse.crud.storage.BaseTransaction;
+import net.sf.jconverse.crud.storage.DataAccessLayer;
 import net.sf.jconverse.crud.storage.condition.SearchFilter;
 import net.sf.jconverse.extensions.conversation.AbstractConversation;
 import net.sf.jconverse.extensions.conversation.RootConversation;
 import net.sf.jconverse.extensions.conversation.VersionConversation;
 import net.sf.jconverse.laf.styles.Styles;
+import fr.jg.aspergus.AddParameters;
+import fr.jg.aspergus.AspergusFactory;
+import fr.jg.aspergus.CreateDatabase;
+import fr.jg.aspergus.UpdateDatabase;
+import fr.jg.aspergus.domain.Categorie;
+import fr.jg.aspergus.domain.Commande;
+import fr.jg.aspergus.domain.Commande.Statut;
+import fr.jg.aspergus.domain.Mailing;
+import fr.jg.aspergus.domain.Produit;
+import fr.jg.aspergus.domain.VenteDetail;
+import fr.jg.aspergus.presentation.AspergusBundle;
 
 public class MainConversation extends AbstractConversation implements SecureConversation, RootConversation {
 
@@ -86,9 +93,9 @@ public class MainConversation extends AbstractConversation implements SecureConv
     WPanel panel = new WPanel("Clients");
 
     panel.addButton(new Button(AspergusBundle.ajoutClient, ListParameters
-        .create(AspergusFactory.getInstance(false), fr.jg.aspergus.domain.Client.class).setAllowAdd(true)
-        .setAllowEdit(true).setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start)
-        .createConversation(), AspergusFactory.user_role));
+        .create(AspergusFactory.getInstance(false), fr.jg.aspergus.domain.Client.class).setAllowAdd(true).setAllowEdit(true)
+        .setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start).createConversation(),
+        AspergusFactory.user_role));
 
     panel.addButton(new Button(AspergusBundle.creerMailing, ListParameters
         .create(AspergusFactory.getInstance(false), Mailing.class).setAllowAdd(true).setAllowEdit(true).setAllowRemove(true)
@@ -98,13 +105,34 @@ public class MainConversation extends AbstractConversation implements SecureConv
   }
 
   private void addVentePanel(WPage menu) {
-    WPanel panel = new WPanel("Ventes directes au magasin");
+    final WPanel panel = new WPanel("Ventes directes au magasin");
     panel.addComment("Saisir une vente au magasin (Client de passage)");
-    panel.addButton(new Button(AspergusBundle.ajoutVente, ListParameters
-        .create(AspergusFactory.getInstance(false), Commande.class).setAllowAdd(true).setAllowEdit(true).setAllowRemove(true)
-        .setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start).createConversation(), AspergusFactory.user_role)
-        .addStyle(Styles.DOUBLE_SIZE));
+    AspergusFactory.getInstance(false).execute(false, new BaseTransaction() {
 
+      @Override
+      protected void execute(DataAccessLayer t) throws Exception {
+        for (Categorie cat : t.find(Categorie.class)) {
+          WPanel panelCat = new WPanel(cat.getNom());
+          Produit filterProduit = new Produit();
+          filterProduit.setCategorie(cat);
+          List<Produit> produits = t.findSome(filterProduit);
+
+          for (Produit produit : produits) {
+            VenteDetail filterVente = new VenteDetail();
+            filterVente.setProduit(produit);
+            filterVente.update();
+            ViewParamerters<VenteDetail> params = ViewParamerters.create(AspergusFactory.getInstance(false), filterVente);
+            params.setStartInEditMode(true);
+            Button button = new Button(produit.getDescription(), params.createConversation(), AspergusFactory.user_role);
+
+            panelCat.addButton(button);
+
+          }
+          panel.add(panelCat);
+        }
+
+      }
+    });
     menu.add(panel);
   }
 
