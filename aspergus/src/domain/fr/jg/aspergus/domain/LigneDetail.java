@@ -24,6 +24,7 @@ import net.sf.jconverse.crud.annotations.gui.Visibilities.Hidden;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InEdit;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InEditableList;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InList;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InSelect;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.InView;
 import net.sf.jconverse.crud.annotations.gui.Visibilities.Uneditable;
@@ -64,6 +65,7 @@ public class LigneDetail {
   @InEditableList()
   @InEdit(view = "Vente", visibleIfEmpty = true)
   @InView(view = "Vente")
+  @InSearch
   public BigDecimal getTotal() {
     return total;
   }
@@ -76,6 +78,7 @@ public class LigneDetail {
   @Required(displayComboWithEmptyValue = true)
   @InEdit(view = "Vente")
   @InView(view = "Vente")
+  @InSearch
   public Produit getProduit() {
     return produit;
   }
@@ -89,6 +92,7 @@ public class LigneDetail {
   @Required
   @InEditableList
   @InEdit(view = "Vente")
+  @InSearch
   @InView(view = "Vente")
   @FormatDecimal(value = "0.00", edit = "0.00")
   public BigDecimal getQuantite() {
@@ -102,6 +106,7 @@ public class LigneDetail {
   @Order(100)
   @Transient
   @InSelect()
+  @InSearch
   @InList(groupBy = true)
   public Categorie getCategorie() {
     if (getProduit() != null)

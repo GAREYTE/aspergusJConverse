@@ -26,6 +26,9 @@ import net.sf.jconverse.extensions.conversation.RootConversation;
 import net.sf.jconverse.extensions.conversation.VersionConversation;
 import net.sf.jconverse.laf.styles.Styles;
 import net.sf.jconverse.laf.styles.StylesColor;
+
+import org.joda.time.LocalDate;
+
 import fr.jg.aspergus.AddParameters;
 import fr.jg.aspergus.AspergusFactory;
 import fr.jg.aspergus.CreateDatabase;
@@ -147,6 +150,13 @@ public class MainConversation extends AbstractConversation implements SecureConv
       }
     });
     menu.add(panel);
+    VenteDetail filterVente = new VenteDetail();
+    filterVente.setDate(new LocalDate().toDateTimeAtCurrentTime().toDate());
+    ListParameters<VenteDetail> params = ListParameters
+        .create(AspergusFactory.getInstance(false), fr.jg.aspergus.domain.VenteDetail.class).setAllowAdd(true).setAllowEdit(true)
+        .setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start).setFirstRunFilter(filterVente);
+    panel.addButton(new Button(AspergusBundle.listerVentes, params.createConversation(), AspergusFactory.user_role));
+
   }
 
   private void addStatsPanel(WPage menu) {

@@ -20,8 +20,10 @@ import net.sf.jconverse.crud.annotations.gui.Choice;
 import net.sf.jconverse.crud.annotations.gui.Choice.Display;
 import net.sf.jconverse.crud.annotations.gui.Choice.Mode;
 import net.sf.jconverse.crud.annotations.gui.DefaultEditValue;
-import net.sf.jconverse.crud.annotations.gui.DefaultToday;
+import net.sf.jconverse.crud.annotations.gui.DefaultTodayWithTime;
 import net.sf.jconverse.crud.annotations.gui.Required;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InList;
+import net.sf.jconverse.crud.annotations.gui.Visibilities.InSearch;
 import net.sf.jconverse.crud.builder.DisplayMode;
 import net.sf.jconverse.crud.builder.Finder;
 import net.sf.jconverse.crud.field.Hints;
@@ -43,8 +45,10 @@ public class VenteDetail extends LigneDetail {
   private Salarie vendeur;
   private ModePaiement modeDePaiement;
 
-  @Order(400)
+  @Order(700)
   @ManyToOne()
+  @InList
+  @InSearch
   @Choice(value = Mode.EDITION, display = Display.COMBO)
   public Client getClient() {
     return client;
@@ -54,8 +58,9 @@ public class VenteDetail extends LigneDetail {
     this.client = client;
   }
 
-  @Order(300)
+  @Order(800)
   @ManyToOne
+  @InList
   @Choice(value = Mode.SELECTION, display = Display.COMBO)
   public Salarie getVendeur() {
     return vendeur;
@@ -66,8 +71,10 @@ public class VenteDetail extends LigneDetail {
   }
 
   @Order(100)
-  @DefaultEditValue(value = DefaultToday.class)
+  @DefaultEditValue(value = DefaultTodayWithTime.class)
   @Temporal(TemporalType.TIMESTAMP)
+  @InList
+  @InSearch()
   public Date getDate() {
     return date;
   }
@@ -76,9 +83,11 @@ public class VenteDetail extends LigneDetail {
     this.date = date;
   }
 
-  @Order(600)
+  @Order(900)
   @Enumerated(EnumType.STRING)
   @Required
+  @InList
+  @InSearch
   public ModePaiement getModeDePaiement() {
     return modeDePaiement;
   }
