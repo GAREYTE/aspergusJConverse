@@ -1,11 +1,17 @@
 package fr.jg.aspergus.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import net.sf.jconverse.crud.annotations.gui.Choice;
 import net.sf.jconverse.crud.annotations.gui.Choice.Display;
 import net.sf.jconverse.crud.annotations.gui.Choice.Mode;
+import net.sf.jconverse.crud.annotations.gui.DefaultEditValue;
+import net.sf.jconverse.crud.annotations.gui.DefaultToday;
 import net.sf.jconverse.crud.builder.DisplayMode;
 import net.sf.jconverse.crud.builder.Finder;
 import net.sf.jconverse.crud.field.Hints;
@@ -15,6 +21,7 @@ import net.sourceforge.cristalmodel.annotations.Order;
 @Entity
 public class VenteDetail extends LigneDetail {
 
+  private Date date;
   private Client client;
   private Salarie vendeur;
 
@@ -43,6 +50,17 @@ public class VenteDetail extends LigneDetail {
 
   public void setVendeur(Salarie vendeur) {
     this.vendeur = vendeur;
+  }
+
+  @Order(50)
+  @DefaultEditValue(value = DefaultToday.class)
+  @Temporal(TemporalType.TIMESTAMP)
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
   }
 
 }
