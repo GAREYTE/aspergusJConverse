@@ -32,12 +32,15 @@ import net.sf.jconverse.laf.styles.Styles;
 import net.sourceforge.cristalmodel.annotations.DisplayConstraints;
 import net.sourceforge.cristalmodel.annotations.Order;
 
+import org.joda.time.DateTime;
+
 @Entity
 public class VenteDetail extends LigneDetail {
   public enum ModePaiement {
+    Liquide,
     CB,
     Cheque,
-    Liquide
+
   }
 
   private Date date;
@@ -113,5 +116,25 @@ public class VenteDetail extends LigneDetail {
         }
       }).addStyle(Styles.HIDDEN));
     }
+    if (mode.in(DisplayMode.SEARCH)) {
+      hints.addAction("getDate", new Action("<", new CrudCommand() {
+
+        @Override
+        public Transition run(CrudEvent event) throws Exception {
+          setDate(new DateTime(getDate()).minusDays(1).toDate());
+          return BasicActions.Start;
+        }
+      }));
+      hints.addAction("getDate", new Action(">", new CrudCommand() {
+
+        @Override
+        public Transition run(CrudEvent event) throws Exception {
+          setDate(new DateTime(getDate()).plusDays(1).toDate());
+          return BasicActions.Start;
+        }
+      }));
+
+    }
+
   }
 }

@@ -151,7 +151,7 @@ public class MainConversation extends AbstractConversation implements SecureConv
     });
     menu.add(panel);
     VenteDetail filterVente = new VenteDetail();
-    filterVente.setDate(new LocalDate().toDateTimeAtCurrentTime().toDate());
+    filterVente.setDate(new LocalDate().toDateTimeAtStartOfDay().toDate());
     ListParameters<VenteDetail> params = ListParameters
         .create(AspergusFactory.getInstance(false), fr.jg.aspergus.domain.VenteDetail.class).setAllowAdd(true).setAllowEdit(true)
         .setAllowRemove(true).setSearchMode(SearchMode.FILTER).setExitListener(BasicActions.Start).setFirstRunFilter(filterVente);
