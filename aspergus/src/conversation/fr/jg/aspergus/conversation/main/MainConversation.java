@@ -1,5 +1,8 @@
 package fr.jg.aspergus.conversation.main;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sf.jconverse.components.ActionEvent;
@@ -22,6 +25,7 @@ import net.sf.jconverse.extensions.conversation.AbstractConversation;
 import net.sf.jconverse.extensions.conversation.RootConversation;
 import net.sf.jconverse.extensions.conversation.VersionConversation;
 import net.sf.jconverse.laf.styles.Styles;
+import net.sf.jconverse.laf.styles.StylesColor;
 import fr.jg.aspergus.AddParameters;
 import fr.jg.aspergus.AspergusFactory;
 import fr.jg.aspergus.CreateDatabase;
@@ -105,28 +109,35 @@ public class MainConversation extends AbstractConversation implements SecureConv
   }
 
   private void addVentePanel(WPage menu) {
+
     final WPanel panel = new WPanel("Ventes directes au magasin");
     panel.addComment("Saisir une vente au magasin (Client de passage)");
     AspergusFactory.getInstance(false).execute(false, new BaseTransaction() {
 
       @Override
       protected void execute(DataAccessLayer t) throws Exception {
+        List<StylesColor> styles = new ArrayList<StylesColor>();
+        styles.add(StylesColor.BG_Lightblue);
+        styles.add(StylesColor.BG_Lightcyan);
+        styles.add(StylesColor.BG_Lightskyblue);
+        styles.add(StylesColor.BG_Lightgreen);
+
+        Iterator<StylesColor> it = styles.iterator();
         for (Categorie cat : t.find(Categorie.class)) {
           WPanel panelCat = new WPanel(cat.getNom());
           Produit filterProduit = new Produit();
           filterProduit.setCategorie(cat);
           List<Produit> produits = t.findSome(filterProduit);
-
+          StylesColor nextColor = it.next();
           for (Produit produit : produits) {
             VenteDetail filterVente = new VenteDetail();
             filterVente.setProduit(produit);
+            filterVente.setQuantite(BigDecimal.ONE);
             filterVente.update();
             ViewParamerters<VenteDetail> params = ViewParamerters.create(AspergusFactory.getInstance(false), filterVente);
             params.setStartInEditMode(true);
             Button button = new Button(produit.getDescription(), params.createConversation(), AspergusFactory.user_role);
-
-            panelCat.addButton(button);
-
+            panelCat.addButton(button).addStyle(nextColor);
           }
           panel.add(panelCat);
         }
