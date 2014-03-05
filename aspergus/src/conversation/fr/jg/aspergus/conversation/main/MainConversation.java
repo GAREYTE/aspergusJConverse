@@ -36,6 +36,7 @@ import fr.jg.aspergus.domain.Commande.Statut;
 import fr.jg.aspergus.domain.Mailing;
 import fr.jg.aspergus.domain.Produit;
 import fr.jg.aspergus.domain.VenteDetail;
+import fr.jg.aspergus.domain.VenteDetail.ModePaiement;
 import fr.jg.aspergus.presentation.AspergusBundle;
 
 public class MainConversation extends AbstractConversation implements SecureConversation, RootConversation {
@@ -133,6 +134,7 @@ public class MainConversation extends AbstractConversation implements SecureConv
             VenteDetail filterVente = new VenteDetail();
             filterVente.setProduit(produit);
             filterVente.setQuantite(BigDecimal.ONE);
+            filterVente.setModeDePaiement(ModePaiement.Liquide);
             filterVente.update();
             ViewParamerters<VenteDetail> params = ViewParamerters.create(AspergusFactory.getInstance(false), filterVente);
             params.setStartInEditMode(true);
